@@ -1,0 +1,141 @@
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import Link from 'next/link'
+import { BRAND } from '@/config/brand'
+import { cn } from '@/lib/utils'
+
+const NAV_LINKS = [
+  { href: '#sobre',       label: 'Sobre',       section: 'sobre' },
+  { href: '#experiencia', label: 'Experiência',  section: 'experiencia' },
+  { href: '#servicos',    label: 'Serviços',     section: 'servicos' },
+  { href: '#vip',         label: 'VIP',          section: 'vip' },
+] as const
+
+function openBooking() {
+  window.dispatchEvent(new Event('open-booking'))
+}
+
+export function Nav() {
+  const [scrolled,      setScrolled]  = useState(false)
+  const [activeSection, setActive]    = useState('')
+  const [menuOpen,      setMenuOpen]  = useState(false)
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 55)
+    let current = ''
+    NAV_LINKS.forEach(({ section }) => {
+      const el = document.getElementById(section)
+      if (el && window.scrollY >= el.offsetTop - 130) current = section
+    })
+    setActive(current)
+  }, [])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [handleScroll])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && menuOpen) setMenuOpen(false) }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [menuOpen])
+
+  return (
+    <>
+      <nav
+        role="navigation"
+        aria-label="Navegação principal"
+        className={cn(
+          'fixed top-0 left-0 right-0 z-[200]',
+          'flex justify-between items-center',
+          'px-6 py-7 md:px-[60px]',
+          'transition-all duration-500 ease-brand-circ',
+          scrolled && 'bg-charcoal-deep/97 backdrop-blur-brand py-[15px] shadow-[0_1px_0_rgba(245,240,232,0.05)]'
+        )}
+      >
+        <Link
+          href="/"
+          aria-label={`${BRAND.name} — Início`}
+          className="font-body font-light text-2xs tracking-label uppercase text-offwhite/40 hover:text-offwhite/72 transition-colors leading-[1.3]"
+        >
+          Escolha o seu momento
+        </Link>
+
+        <ul className="hidden md:flex gap-10 list-none" role="list">
+          {NAV_LINKS.map(({ href, label, section }) => (
+            <li key={section}>
+              <a
+                href={href}
+                className={cn(
+                  'font-body font-light text-2xs tracking-nav uppercase relative pb-[3px] transition-colors duration-300',
+                  'after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:h-px after:bg-gold',
+                  'after:transition-[width] after:duration-300 after:ease-brand-out',
+                  activeSection === section
+                    ? 'text-offwhite after:w-full'
+                    : 'text-offwhite/52 after:w-0 hover:text-offwhite hover:after:w-full'
+                )}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          onClick={openBooking}
+          aria-label="Agendar horário"
+          className="hidden md:block font-body font-light text-2xs tracking-nav uppercase text-charcoal-deep bg-gold px-6 py-[11px] transition-all duration-300 ease-brand-out hover:bg-gold-light hover:shadow-[0_8px_24px_rgba(201,169,110,0.32)] hover:-translate-y-px active:translate-y-0"
+        >
+          Agendar
+        </button>
+
+        <button
+          className="flex md:hidden flex-col gap-[5px] bg-transparent border-none p-1 w-7"
+          onClick={() => setMenuOpen(v => !v)}
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={menuOpen}
+        >
+          <span className={cn('block w-full h-px bg-offwhite/55 transition-transform duration-300 origin-center', menuOpen && 'translate-y-[6px] rotate-45')} />
+          <span className={cn('block w-full h-px bg-offwhite/55 transition-opacity duration-300', menuOpen && 'opacity-0')} />
+          <span className={cn('block w-full h-px bg-offwhite/55 transition-transform duration-300 origin-center', menuOpen && '-translate-y-[6px] -rotate-45')} />
+        </button>
+      </nav>
+
+      {/* Mobile drawer */}
+      <div
+        role="dialog"
+        aria-label="Menu"
+        className={cn(
+          'fixed inset-0 z-[190] flex flex-col items-center justify-center gap-9',
+          'bg-charcoal-deep/98 backdrop-blur-[20px]',
+          'transition-opacity duration-400 ease-brand-out',
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        )}
+      >
+        {NAV_LINKS.map(({ href, label }) => (
+          <a
+            key={label}
+            href={href}
+            onClick={() => setMenuOpen(false)}
+            className="font-display font-light text-6xl tracking-[0.06em] text-offwhite/50 hover:text-offwhite transition-colors duration-300"
+          >
+            {label}
+          </a>
+        ))}
+        <button
+          onClick={() => { setMenuOpen(false); openBooking() }}
+          className="font-body font-light text-2xs tracking-nav uppercase text-charcoal-deep bg-gold px-8 py-[13px] mt-2"
+        >
+          Agendar
+        </button>
+      </div>
+    </>
+  )
+}
