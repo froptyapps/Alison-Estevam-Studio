@@ -113,7 +113,7 @@ function MiniCalendar({
               'w-7 h-7 border border-offwhite/10 text-offwhite/32 text-[13px]',
               'flex items-center justify-center transition-all duration-200',
               'hover:border-sage hover:text-sage-light hover:bg-sage/7',
-              'disabled:opacity-18 disabled:pointer-events-none'
+              'disabled:opacity-20 disabled:pointer-events-none'
             )}
           >‹</button>
           <button
@@ -152,9 +152,9 @@ function MiniCalendar({
                 'aspect-square flex items-center justify-center',
                 'font-body font-light text-[11.5px] rounded-none',
                 'border border-transparent transition-all duration-200',
-                disabled   && 'text-offwhite/10 line-through cursor-default',
-                !disabled  && 'text-offwhite/48 cursor-pointer hover:bg-sage/13 hover:text-sage-light hover:border-sage/17',
-                todayDay   && !disabled && !isSelected && 'text-offwhite border-offwhite/17 font-normal',
+                disabled   && 'text-offwhite/12 cursor-default',
+                !disabled  && 'text-offwhite/55 cursor-pointer hover:bg-sage/13 hover:text-sage-light hover:border-sage/20',
+                todayDay   && !disabled && !isSelected && 'text-offwhite border-offwhite/20 font-normal',
                 isSelected && 'bg-sage text-offwhite border-sage',
               )}
             >
@@ -214,10 +214,10 @@ function SlotPicker({
               onClick={() => slot.available && onSelect(slot)}
               className={cn(
                 'py-[13px] px-[6px] text-center',
-                'font-display text-[15px]',
+                'font-data text-[15px]',
                 'border rounded-none transition-all duration-200 select-none',
-                !slot.available && 'text-offwhite/10 border-offwhite/7 line-through cursor-default',
-                slot.available && !isSel && 'text-offwhite/52 border-offwhite/7 cursor-pointer hover:border-sage hover:text-sage-light hover:bg-sage/7',
+                !slot.available && 'text-offwhite/12 border-offwhite/5 cursor-default',
+                slot.available && !isSel && 'text-offwhite/60 border-offwhite/10 cursor-pointer hover:border-sage hover:text-sage-light hover:bg-sage/8',
                 isSel && 'bg-sage border-sage text-offwhite',
               )}
             >
@@ -636,9 +636,9 @@ export function BookingModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </p>
             <div className="flex items-center gap-2 mt-[18px]" aria-label="Etapas do agendamento">
               <StepDot num={1} status={stepStatus(1)} />
-              <div className="w-[18px] h-px bg-offwhite/8 shrink-0" aria-hidden="true" />
+              <div className="w-[18px] h-px bg-offwhite/15 shrink-0" aria-hidden="true" />
               <StepDot num={2} status={stepStatus(2)} />
-              <div className="w-[18px] h-px bg-offwhite/8 shrink-0" aria-hidden="true" />
+              <div className="w-[18px] h-px bg-offwhite/15 shrink-0" aria-hidden="true" />
               <StepDot num={3} status={stepStatus(3)} />
             </div>
           </div>
@@ -687,7 +687,10 @@ export function BookingModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             ) : (
               <div className="pt-5">
                 <p className="font-display font-light text-[19px] text-offwhite/22 leading-[1.65] italic">
-                  Selecione uma data<br />no calendário ao lado.
+                  Selecione uma data<br />no calendário.
+                </p>
+                <p className="font-body font-light text-[9px] tracking-[0.28em] uppercase text-offwhite/15 mt-4">
+                  Escolha o dia → depois o horário
                 </p>
               </div>
             )}

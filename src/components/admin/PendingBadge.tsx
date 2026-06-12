@@ -87,7 +87,7 @@ export function PendingBadge() {
         {toasts.map(t => (
           <div
             key={t.id}
-            className="bg-charcoal-mid border border-offwhite/10 shadow-2xl px-5 py-4 max-w-[280px] animate-in slide-in-from-right-4 fade-in duration-300"
+            className="bg-charcoal-mid border border-offwhite/10 shadow-2xl px-5 py-4 max-w-[280px] animate-slide-in-right"
           >
             <p className="font-body font-light text-[8px] tracking-[0.35em] uppercase text-sage-light/70 mb-1">
               Novo agendamento

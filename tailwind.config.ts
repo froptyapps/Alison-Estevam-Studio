@@ -118,15 +118,20 @@ const config: Config = {
         '600': '600ms',
       },
       animation: {
-        'fade-up':    'fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both',
-        'pulse-dot':  'pulseDot 1.8s ease-in-out infinite',
-        'scroll-line':'scrollLine 2.5s cubic-bezier(0.4,0,0.2,1) infinite',
-        'dot-loading':'dotLoading 1.2s ease-in-out infinite',
+        'fade-up':      'fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both',
+        'slide-in-right':'slideInRight 0.35s cubic-bezier(0.16,1,0.3,1) both',
+        'pulse-dot':    'pulseDot 1.8s ease-in-out infinite',
+        'scroll-line':  'scrollLine 2.5s cubic-bezier(0.4,0,0.2,1) infinite',
+        'dot-loading':  'dotLoading 1.2s ease-in-out infinite',
       },
       keyframes: {
         fadeUp: {
           from: { opacity: '0', transform: 'translateY(28px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInRight: {
+          from: { opacity: '0', transform: 'translateX(20px)' },
+          to:   { opacity: '1', transform: 'translateX(0)' },
         },
         pulseDot: {
           '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },

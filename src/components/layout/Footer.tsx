@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { BRAND } from '@/config/brand'
 import { buildVipRequestUrl } from '@/lib/whatsapp/messages'
@@ -61,6 +63,7 @@ export function Footer() {
         <ul className="flex flex-col gap-3 list-none">
           <li>
             <button
+              onClick={() => window.dispatchEvent(new Event('open-booking'))}
               className="group font-body font-light text-sm tracking-[0.24em] uppercase
                          text-offwhite/28 hover:text-offwhite/60 transition-colors duration-300
                          inline-flex items-center gap-2 bg-transparent border-none p-0"

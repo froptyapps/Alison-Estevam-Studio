@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useCallback } from 'react'
+import { useState, useEffect, useTransition, useCallback } from 'react'
 import { format, parseISO, addMonths, subMonths, startOfMonth, getDaysInMonth, getDay } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
@@ -43,7 +43,7 @@ export function RescheduleFlow({ code, currentDate }: { code: string; currentDat
   }
 
   // Load current month on first render
-  useState(() => { fetchAvail(viewing) })
+  useEffect(() => { fetchAvail(viewing) }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const daysInMonth = getDaysInMonth(viewing)
   const firstDay    = getDay(viewing) // 0=Sun
