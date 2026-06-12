@@ -14,10 +14,10 @@ export async function createClient() {
     {
       cookies: {
         getAll() { return cookieStore.getAll() },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, options as Parameters<typeof cookieStore.set>[2])
             )
           } catch {
             // Server Component — cookies can't be set; ignore
@@ -41,10 +41,10 @@ export async function createServiceClient() {
     {
       cookies: {
         getAll() { return cookieStore.getAll() },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, options as Parameters<typeof cookieStore.set>[2])
             )
           } catch { /* ignore in Server Components */ }
         },

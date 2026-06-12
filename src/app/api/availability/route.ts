@@ -1,13 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
 import { BOOKING } from '@/config/booking'
-import { addDays, format, isWeekend, parseISO, startOfDay } from 'date-fns'
+import { addDays, format, startOfDay } from 'date-fns'
 
-/**
- * GET /api/availability?year=2026&month=6
- * Returns available days and slots for the given month.
- * Public endpoint — no auth required.
- */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const year  = parseInt(searchParams.get('year')  ?? String(new Date().getFullYear()))
@@ -17,28 +12,28 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Parâmetros inválidos.' }, { status: 400 })
   }
 
-  const supabase = await createServiceClient()
+  // Cast to any — Supabase v2.43 generics don't resolve table types reliably
+  const db = await createServiceClient() as any
 
-  // Get blocked periods for this month
   const monthStart = format(new Date(year, month - 1, 1), 'yyyy-MM-dd')
   const monthEnd   = format(new Date(year, month, 0), 'yyyy-MM-dd')
 
-  const { data: blocked } = await supabase
+  const { data: blocked } = await db
     .from('blocked_periods')
     .select('date_start, date_end')
     .lte('date_start', monthEnd)
-    .gte('date_end', monthStart)
+    .gte('date_end', monthStart) as { data: { date_start: string; date_end: string }[] | null }
 
-  // Get existing slots for the month
-  const { data: slots } = await supabase
+  const { data: slots } = await db
     .from('time_slots')
     .select('date, start_time, status, id')
     .gte('date', monthStart)
     .lte('date', monthEnd)
     .order('date', { ascending: true })
-    .order('start_time', { ascending: true })
+    .order('start_time', { ascending: true }) as {
+      data: { id: string; date: string; start_time: string; status: string }[] | null
+    }
 
-  // Build availability map
   const today = startOfDay(new Date())
   const maxDate = addDays(today, BOOKING.maxDaysAhead)
 
@@ -47,31 +42,26 @@ export async function GET(request: NextRequest) {
     slots: { id: string; startTime: string; available: boolean }[]
   }> = {}
 
-  // Iterate each day of the month
   const daysInMonth = new Date(year, month, 0).getDate()
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(year, month - 1, d)
     const dateStr = format(date, 'yyyy-MM-dd')
 
-    // Skip past dates
     if (startOfDay(date) < today) {
       availability[dateStr] = { available: false, slots: [] }
       continue
     }
 
-    // Skip beyond max booking window
     if (date > maxDate) {
       availability[dateStr] = { available: false, slots: [] }
       continue
     }
 
-    // Skip blocked weekdays
     if (BOOKING.blockedWeekdays.includes(date.getDay())) {
       availability[dateStr] = { available: false, slots: [] }
       continue
     }
 
-    // Skip blocked periods
     const isBlocked = blocked?.some(b =>
       dateStr >= b.date_start && dateStr <= b.date_end
     )
@@ -80,7 +70,6 @@ export async function GET(request: NextRequest) {
       continue
     }
 
-    // Get slots for this day
     const daySlots = slots?.filter(s => s.date === dateStr) ?? []
     const mappedSlots = daySlots.map(s => ({
       id:        s.id,
@@ -95,8 +84,6 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.json({ year, month, availability }, {
-    headers: {
-      'Cache-Control': 'public, max-age=60, stale-while-revalidate=120',
-    },
+    headers: { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=120' },
   })
 }
