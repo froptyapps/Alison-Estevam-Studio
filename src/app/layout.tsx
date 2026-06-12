@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond, Jost, Lora } from 'next/font/google'
 import { BRAND } from '@/config/brand'
 import { StructuredData } from '@/components/ui/StructuredData'
+import { Nav }             from '@/components/layout/Nav'
+import { Footer }          from '@/components/layout/Footer'
+import { Cursor }          from '@/components/ui/Cursor'
+import { BookingProvider } from '@/components/booking/BookingProvider'
+import { NavScheduleBtn }  from '@/components/layout/NavScheduleBtn'
 import '@/app/globals.css'
 
 const cormorant = Cormorant_Garamond({
@@ -68,7 +73,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <StructuredData />
       </head>
-      <body>{children}</body>
+      <body>
+        <BookingProvider>
+          <Cursor />
+          <Nav />
+          <NavScheduleBtn />
+          <main>{children}</main>
+          <Footer />
+        </BookingProvider>
+      </body>
     </html>
   )
 }
