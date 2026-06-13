@@ -160,7 +160,6 @@ export function ServicosSection() {
             {SERVICOS.map((s, i) => (
               <button
                 key={s.num}
-                role="listitem"
                 onClick={() => setActive(prev => prev === i ? null : i)}
                 aria-expanded={active === i}
                 aria-controls={`servico-detail-${s.num}`}
@@ -232,7 +231,7 @@ export function ServicosSection() {
                   Selecione um serviço
                 </p>
                 <p className="font-display font-light italic text-2xl text-olive/28 leading-[1.45]">
-                  "Cada detalhe importa. Escolha o serviço para conhecer mais."
+                  &ldquo;Cada detalhe importa. Escolha o serviço para conhecer mais.&rdquo;
                 </p>
               </div>
               <div className="mt-8 flex items-center gap-3">
