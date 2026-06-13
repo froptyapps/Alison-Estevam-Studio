@@ -14,30 +14,30 @@ const config: Config = {
       white: '#ffffff',
       black: '#000000',
 
-      // ── Brand Core ──────────────────────────
+      // ── Brand Core — CSS variable driven for light/dark theme ───
       charcoal: {
-        DEFAULT: '#1C1C1A',
-        mid:     '#2E2E2B',
-        deep:    '#141412',
+        DEFAULT: 'rgb(var(--c-charcoal) / <alpha-value>)',
+        mid:     'rgb(var(--c-charcoal-mid) / <alpha-value>)',
+        deep:    'rgb(var(--c-charcoal-deep) / <alpha-value>)',
       },
       sage: {
-        DEFAULT: '#7A9182',
-        light:   '#A0B4A8',
+        DEFAULT: 'rgb(var(--c-sage) / <alpha-value>)',
+        light:   'rgb(var(--c-sage-light) / <alpha-value>)',
       },
       gold: {
-        DEFAULT: '#C9A96E',
-        light:   '#DBBE85',
+        DEFAULT: 'rgb(var(--c-gold) / <alpha-value>)',
+        light:   'rgb(var(--c-gold-light) / <alpha-value>)',
       },
       offwhite: {
-        DEFAULT: '#F5F0E8',
-        warm:    '#EDE8DF',
+        DEFAULT: 'rgb(var(--c-offwhite) / <alpha-value>)',
+        warm:    'rgb(var(--c-offwhite-warm) / <alpha-value>)',
       },
-      cream: '#FAF7F2',
+      cream:  'rgb(var(--c-cream) / <alpha-value>)',
       olive: {
-        DEFAULT: '#4B4D39',
+        DEFAULT: 'rgb(var(--c-olive) / <alpha-value>)',
       },
 
-      // ── Functional ──────────────────────────
+      // ── Functional — fixed, no theme switching ───────────────────
       success: '#4A7C59',
       warning: '#C9953A',
       error:   '#8B3A3A',
@@ -118,11 +118,12 @@ const config: Config = {
         '600': '600ms',
       },
       animation: {
-        'fade-up':      'fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both',
-        'slide-in-right':'slideInRight 0.35s cubic-bezier(0.16,1,0.3,1) both',
-        'pulse-dot':    'pulseDot 1.8s ease-in-out infinite',
-        'scroll-line':  'scrollLine 2.5s cubic-bezier(0.4,0,0.2,1) infinite',
-        'dot-loading':  'dotLoading 1.2s ease-in-out infinite',
+        'fade-up':        'fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both',
+        'slide-in-right': 'slideInRight 0.35s cubic-bezier(0.16,1,0.3,1) both',
+        'pulse-dot':      'pulseDot 1.8s ease-in-out infinite',
+        'scroll-line':    'scrollLine 2.5s cubic-bezier(0.4,0,0.2,1) infinite',
+        'dot-loading':    'dotLoading 1.2s ease-in-out infinite',
+        'theme-in':       'themeIn 0.3s cubic-bezier(0.16,1,0.3,1) both',
       },
       keyframes: {
         fadeUp: {
@@ -132,6 +133,10 @@ const config: Config = {
         slideInRight: {
           from: { opacity: '0', transform: 'translateX(20px)' },
           to:   { opacity: '1', transform: 'translateX(0)' },
+        },
+        themeIn: {
+          from: { opacity: '0', transform: 'scale(0.85) rotate(-15deg)' },
+          to:   { opacity: '1', transform: 'scale(1) rotate(0deg)' },
         },
         pulseDot: {
           '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },

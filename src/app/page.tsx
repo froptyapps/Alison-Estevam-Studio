@@ -1,6 +1,7 @@
 import { SobreSection }      from '@/components/sections/SobreSection'
 import { ExperienciaSection }  from '@/components/sections/ExperienciaSection'
 import { ServicosSection }    from '@/components/sections/ServicosSection'
+import { GaleriaSection }     from '@/components/sections/GaleriaSection'
 import { HomeHero }           from '@/components/sections/HomeHero'
 import { RevealInit }         from '@/components/ui/RevealInit'
 import type { Metadata }      from 'next'
@@ -16,6 +17,7 @@ export default function HomePage() {
       <RevealInit />
       <HomeHero />
       <SobreSection />
+      <GaleriaSection />
       <ExperienciaSection />
       <ServicosSection />
     </>

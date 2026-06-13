@@ -3,12 +3,41 @@
 @tailwind utilities;
 
 /* ══════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   Only properties that Tailwind can't express
+   THEME — CSS CUSTOM PROPERTIES
+   Dark = default. Light via [data-theme="light"]
 ══════════════════════════════════════════════ */
 :root {
+  /* Easing */
   --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
   --ease-circ: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ── Dark palette (default) ── */
+  --c-charcoal:      28 28 26;      /* #1C1C1A */
+  --c-charcoal-mid:  46 46 43;      /* #2E2E2B */
+  --c-charcoal-deep: 20 20 18;      /* #141412 */
+  --c-sage:          122 145 130;   /* #7A9182 */
+  --c-sage-light:    160 180 168;   /* #A0B4A8 */
+  --c-offwhite:      245 240 232;   /* #F5F0E8 */
+  --c-offwhite-warm: 237 232 223;   /* #EDE8DF */
+  --c-cream:         250 247 242;   /* #FAF7F2 */
+  --c-olive:         75 77 57;      /* #4B4D39 */
+  --c-gold:          201 169 110;   /* #C9A96E */
+  --c-gold-light:    219 190 133;   /* #DBBE85 */
+}
+
+[data-theme="light"] {
+  /* ── Light palette ── */
+  --c-charcoal:      250 247 242;   /* #FAF7F2 — main bg */
+  --c-charcoal-mid:  242 237 227;   /* warmer beige mid */
+  --c-charcoal-deep: 233 227 214;   /* deeper beige */
+  --c-sage:          58 108 80;     /* #3A6C50 — darker sage for contrast */
+  --c-sage-light:    76 128 98;     /* #4C8062 */
+  --c-offwhite:      38 36 32;      /* #262420 — dark text */
+  --c-offwhite-warm: 56 53 46;      /* slightly lighter dark */
+  --c-cream:         255 253 248;   /* near-white */
+  --c-olive:         52 54 38;      /* darker olive */
+  --c-gold:          180 142 68;    /* #B48E44 — deeper gold for light bg */
+  --c-gold-light:    202 162 86;    /* adjusted gold light */
 }
 
 /* ══════════════════════════════════════════════
@@ -21,10 +50,12 @@
   }
 
   body {
-    @apply bg-cream text-charcoal font-body font-light;
+    @apply bg-charcoal text-offwhite font-body font-light;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Focus visible — accessibility ring */
@@ -40,8 +71,8 @@
   /* Custom scrollbar */
   ::-webkit-scrollbar       { width: 3px; }
   ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: theme(colors.sage.DEFAULT); }
-  * { scrollbar-width: thin; scrollbar-color: theme(colors.sage.DEFAULT) transparent; }
+  ::-webkit-scrollbar-thumb { background: rgb(var(--c-sage)); }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--c-sage)) transparent; }
 
   /* Prevent text size adjustment on orientation change */
   html { -webkit-text-size-adjust: 100%; }
@@ -111,6 +142,17 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.038'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
+  }
+
+  /* ── Gallery image hover ── */
+  .gallery-img {
+    @apply overflow-hidden;
+  }
+  .gallery-img img {
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gallery-img:hover img {
+    transform: scale(1.04);
   }
 }
 

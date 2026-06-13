@@ -99,7 +99,7 @@ function MiniCalendar({
   })
 
   return (
-    <div className="bg-offwhite/3 border border-offwhite/7 p-[26px] rounded-none">
+    <div className="bg-offwhite/5 border border-offwhite/10 p-[26px] rounded-none">
       <div className="flex justify-between items-center mb-[18px]">
         <span className="font-display font-light text-xl text-offwhite tracking-[0.07em]" aria-live="polite">
           {format(current, 'MMMM yyyy', { locale: ptBR }).replace(/^\w/, c => c.toUpperCase())}
@@ -130,7 +130,7 @@ function MiniCalendar({
 
       <div className="grid grid-cols-7 gap-[3px] mb-[5px]" aria-hidden="true">
         {['D','S','T','Q','Q','S','S'].map((d, i) => (
-          <span key={i} className="text-center font-body font-light text-[8.5px] tracking-[0.15em] uppercase text-offwhite/18 py-[5px]">
+          <span key={i} className="text-center font-body font-light text-[8.5px] tracking-[0.15em] uppercase text-offwhite/38 py-[5px]">
             {d}
           </span>
         ))}
@@ -152,9 +152,9 @@ function MiniCalendar({
                 'aspect-square flex items-center justify-center',
                 'font-body font-light text-[11.5px] rounded-none',
                 'border border-transparent transition-all duration-200',
-                disabled   && 'text-offwhite/12 cursor-default',
-                !disabled  && 'text-offwhite/55 cursor-pointer hover:bg-sage/13 hover:text-sage-light hover:border-sage/20',
-                todayDay   && !disabled && !isSelected && 'text-offwhite border-offwhite/20 font-normal',
+                disabled   && 'text-offwhite/22 cursor-default',
+                !disabled  && 'text-offwhite/70 cursor-pointer hover:bg-sage/15 hover:text-sage-light hover:border-sage/30',
+                todayDay   && !disabled && !isSelected && 'text-offwhite border-offwhite/30 font-normal',
                 isSelected && 'bg-sage text-offwhite border-sage',
               )}
             >

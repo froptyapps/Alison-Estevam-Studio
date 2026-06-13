@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { BRAND } from '@/config/brand'
 import { cn } from '@/lib/utils'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 
 const NAV_LINKS = [
   { href: '#sobre',       label: 'Sobre',       section: 'sobre' },
@@ -88,13 +89,16 @@ export function Nav() {
           ))}
         </ul>
 
-        <button
-          onClick={openBooking}
-          aria-label="Agendar horário"
-          className="hidden md:block font-body font-light text-2xs tracking-nav uppercase text-charcoal-deep bg-gold px-6 py-[11px] transition-all duration-300 ease-brand-out hover:bg-gold-light hover:shadow-[0_8px_24px_rgba(201,169,110,0.32)] hover:-translate-y-px active:translate-y-0"
-        >
-          Agendar
-        </button>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
+          <button
+            onClick={openBooking}
+            aria-label="Agendar horário"
+            className="font-body font-light text-2xs tracking-nav uppercase text-charcoal-deep bg-gold px-6 py-[11px] transition-all duration-300 ease-brand-out hover:bg-gold-light hover:shadow-[0_8px_24px_rgba(201,169,110,0.32)] hover:-translate-y-px active:translate-y-0"
+          >
+            Agendar
+          </button>
+        </div>
 
         <button
           className="flex md:hidden flex-col gap-[5px] bg-transparent border-none p-1 w-7"

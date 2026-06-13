@@ -112,7 +112,7 @@ export function RescheduleFlow({ code, currentDate }: { code: string; currentDat
           {/* Weekday headers */}
           <div className="grid grid-cols-7 mb-2">
             {WEEK_PT.map(d => (
-              <div key={d} className="text-center font-body font-light text-[7.5px] tracking-[0.22em] uppercase text-offwhite/20 py-1">
+              <div key={d} className="text-center font-body font-light text-[7.5px] tracking-[0.22em] uppercase text-offwhite/38 py-1">
                 {d}
               </div>
             ))}
@@ -140,8 +140,8 @@ export function RescheduleFlow({ code, currentDate }: { code: string; currentDat
                     isSel
                       ? 'bg-sage/25 text-sage-light border border-sage/40'
                       : isAvail
-                        ? 'text-offwhite/70 hover:bg-offwhite/6 border border-transparent hover:border-offwhite/12'
-                        : 'text-offwhite/15 cursor-not-allowed'
+                        ? 'text-offwhite/75 hover:bg-sage/12 border border-transparent hover:border-sage/25 hover:text-sage-light'
+                        : 'text-offwhite/25 cursor-not-allowed'
                   )}
                 >
                   {day}
